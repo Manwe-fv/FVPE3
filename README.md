@@ -2,13 +2,23 @@
 
 An update to E3 that allows usage on the latest Macroquest Emu builds and includes edits custom to the Firiona Vie Project server.
 
+-----
+
 PLEASE NOTE: Due to classic client limitations, some E3 functionality will not work. This is due to a lack of XTargets, visibility of debuffs on mobs, etc. Check issues for a full list.
 
-Download the EMu version of Macroquest from the link below.
+-----
 
-Link: https://drive.google.com/file/d/1-9KYIOkIX59M_51baDnPYMJNIvCJD9X6/view?usp=sharing
+# Instructions:
 
-Apply the files found in this repository to the Macroquest folder.
+1. Download the EMu version of Macroquest from here: https://drive.google.com/file/d/1-9KYIOkIX59M_51baDnPYMJNIvCJD9X6/view?usp=sharing 
+
+2. Apply the files found in this repository's releases to the macroquest folder: https://github.com/Manwe-fv?tab=packages&repo_name=FVPE3
+
+3. Log in to EQEMU and have fun!
+
+# Other resources:
+
+Check out the FVPE3 wiki for commands and changes specific to this build: https://github.com/Manwe-fv/FVPE3/wiki
 
 The comprehensive E3 guide can be found here: https://docs.google.com/document/d/1mZMuB3QGwjAwjpxe-SMN13u6zM-lox7IQPkJTQDomWo/edit#
 
