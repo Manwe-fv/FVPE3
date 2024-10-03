@@ -16,7 +16,9 @@ PLEASE NOTE: Due to classic client limitations, some E3 functionality will not w
 
 3. Log in to EQEMU and have fun!
 
-# Other resources:
+# Lua Scripts
+
+This version of MQ+E3 is compatible with lua scripts. You can find some usefull scripts here: https://github.com/Manwe-fv/FVPE3/wiki/Lua-Scripts
 
 Check out the FVPE3 wiki for commands and changes specific to this build: https://github.com/Manwe-fv/FVPE3/wiki
 
