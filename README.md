@@ -12,7 +12,7 @@ PLEASE NOTE: Due to classic client limitations, some E3 functionality will not w
 
 1. Download the EMu version of Macroquest from here: https://drive.google.com/file/d/1-9KYIOkIX59M_51baDnPYMJNIvCJD9X6/view?usp=sharing 
 
-2. Apply the files found in this repository's releases to the macroquest folder: https://github.com/Manwe-fv?tab=packages&repo_name=FVPE3
+2. Apply the files found in this repository's releases to the macroquest folder: https://github.com/Manwe-fv/FVPE3/releases/tag/Release
 
 3. Log in to EQEMU and have fun!
 
