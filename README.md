@@ -4,7 +4,7 @@ An update to E3 that allows usage on the latest Macroquest Emu builds and includ
 
 -----
 
-PLEASE NOTE: Due to classic client limitations, some E3 functionality will not work. This is due to a lack of XTargets, visibility of debuffs on mobs, etc. Check issues for a full list.
+PLEASE NOTE: Due to classic client limitations, some E3 functionality will not work. This is due to a lack of XTargets, visibility of debuffs on mobs, etc. Check the wiki for a full list.
 
 -----
 
