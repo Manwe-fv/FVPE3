@@ -8,7 +8,7 @@ PLEASE NOTE: Due to classic client limitations, some E3 functionality will not w
 
 -----
 
-# Instructions:
+## Instructions:
 
 1. Download the EMu version of Macroquest from here: https://drive.google.com/file/d/1-9KYIOkIX59M_51baDnPYMJNIvCJD9X6/view?usp=sharing 
 
@@ -16,9 +16,11 @@ PLEASE NOTE: Due to classic client limitations, some E3 functionality will not w
 
 3. Log in to EQEMU and have fun!
 
-# Lua Scripts
+## Lua Scripts
 
 This version of MQ+E3 is compatible with lua scripts. You can find some usefull scripts here: https://github.com/Manwe-fv/FVPE3/wiki/Lua-Scripts
+
+## Resources
 
 Check out the FVPE3 wiki for commands and changes specific to this build: https://github.com/Manwe-fv/FVPE3/wiki
 
