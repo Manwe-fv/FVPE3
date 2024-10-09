@@ -377,9 +377,11 @@ Sub background_Setup
 	
 	/if (!${Defined[tributeZone]}) /declare tributeZone string global FALSE
   /if (!${Ini[${MacroData_Ini},File Paths,Tribute Settings].Length}) {
-    /echo ERROR: Could not find designated file path for [Tribute Settings], please review [${MacroData_Ini}] and restart.
+    /echo Could not find designated file path for [Tribute Settings].
     /beep
-    /endmacro
+    /echo Creating [Tribute Settings] file paths.
+    /if (!${Ini[${MacroData_Ini},File Paths,Tribute Settings].Length}) /call WriteToIni "${MacroData_Ini},File Paths,Tribute Settings" "e3 Macro Inis\Tribute Settings.ini"
+    /delay 1s
   } else {
     /declare tributeZones_Ini string outer ${Ini[${MacroData_Ini},File Paths,Tribute Settings]}
   }
