@@ -10,11 +10,7 @@ PLEASE NOTE: Due to classic client limitations, some E3 functionality will not w
 
 ## Instructions:
 
-1. Download the latest EMu version of Macroquest from here: [https://drive.google.com/file/d/1-9KYIOkIX59M_51baDnPYMJNIvCJD9X6/view?usp=sharing ](https://github.com/macroquest/macroquest)
-
-2. Apply the files found in this repository's releases to the macroquest folder: https://github.com/Manwe-fv/FVPE3/releases/tag/Release
-
-3. Log in to EQEMU and have fun!
+Follow the guide in the wiki for how to install fresh, or upgrade from a previous E3 version: https://github.com/Manwe-fv/FVPE3/wiki/1.-Getting-Started
 
 ## Lua Scripts
 
