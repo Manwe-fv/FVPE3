@@ -459,6 +459,17 @@ SUB check_Plugins
 			}
 		}	
 	}
+  |Check MQ2Cast.
+	/if (!${Plugin[MQ2Cast].Name.Length}) {
+		/echo Plugin MQ2Cast is not loaded, attempting to resolve...
+		/plugin MQ2Cast
+		/delay 3s ${Plugin[MQ2Cast].Name.Length}
+		/if (!${Plugin[MQ2Cast].Name.Length}) {
+			/echo ***WARNING*** MQ2Cast is needed for casting functionality
+			/echo Macro ending now
+			/endmacro
+		}
+	}
   |Check MQ2ItemDisplay.
 	/if (!${Plugin[mq2itemdisplay].Name.Length}) /plugin MQ2ItemDisplay
 	|Check MQ2LinkDB
