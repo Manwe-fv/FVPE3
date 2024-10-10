@@ -1,5 +1,7 @@
 # FVPE3
 
+![FVPE3](http://amaneq.com/home/wp-content/uploads/2024/10/fvpe3-500x500-1.png)
+
 An update to E3 that allows usage on the latest Macroquest Emu builds and includes edits custom to the Firiona Vie Project server.
 
 -----
@@ -10,11 +12,7 @@ PLEASE NOTE: Due to classic client limitations, some E3 functionality will not w
 
 ## Instructions:
 
-1. Download the EMu version of Macroquest from here: https://drive.google.com/file/d/1-9KYIOkIX59M_51baDnPYMJNIvCJD9X6/view?usp=sharing 
-
-2. Apply the files found in this repository's releases to the macroquest folder: https://github.com/Manwe-fv/FVPE3/releases/tag/Release
-
-3. Log in to EQEMU and have fun!
+Follow the guide in the wiki for how to install fresh, or upgrade from a previous E3 version: https://github.com/Manwe-fv/FVPE3/wiki/1.-Getting-Started
 
 ## Lua Scripts
 
