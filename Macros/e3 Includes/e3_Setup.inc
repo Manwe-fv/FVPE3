@@ -155,10 +155,34 @@ SUB e3_Setup(modeSelect)
 		/call WriteToIni "${Character_Ini},Heals,Auto Cast Necro Heal Orbs (On/Off)" On
 	}
 
+	/if (${Bool[${Ini[${Character_Ini},Misc]}]} && !${Bool[${Ini[${Character_Ini},Misc,AutoFood]}]}) {
+		/call WriteToIni "${Character_Ini},Misc,AutoFood" "Off"
+	}
+
+	/if (${Bool[${Ini[${Character_Ini},Misc]}]} && !${Bool[${Ini[${Character_Ini},Misc,Food]}]}) {
+		/call WriteToIni "${Character_Ini},Misc,Food" ""
+	}
+
+	/if (${Bool[${Ini[${Character_Ini},Misc]}]} && !${Bool[${Ini[${Character_Ini},Misc,Drink]}]}) {
+		/call WriteToIni "${Character_Ini},Misc,Drink" ""
+	}
+
 	/if (${Bool[${Ini[${Character_Ini},Misc]}]} && !${Bool[${Ini[${Character_Ini},Misc,Anchor (Char to Anchor to)]}]}) {
 		/call WriteToIni "${Character_Ini},Misc,Anchor (Char to Anchor to)" ""
 	}
 	
+	/if (!${Bool[${Ini[${Character_Ini},Ifs]}]}) {
+		/call WriteToIni "${Character_Ini},Ifs," ""
+	}
+
+	/if (!${Bool[${Ini[${Character_Ini},Swap Items]}]}) {
+		/call WriteToIni "${Character_Ini},Swap Items," ""
+	}
+
+	/if (!${Bool[${Ini[${Character_Ini},Events]}]}) {
+		/call WriteToIni "${Character_Ini},Events," ""
+	}
+
 	/if (${Bool[${Ini[${genSettings_Ini},Misc]}]} && !${Bool[${Ini[${genSettings_Ini},Misc,Gimmie Azure Min Request]}]}) {
 		/call WriteToIni "${genSettings_Ini},Misc,Gimmie Azure Min Requests" "2"
 	}
@@ -172,6 +196,14 @@ SUB e3_Setup(modeSelect)
 		/call WriteToIni "${genSettings_Ini},Misc,Gimmie MoltenOrb Min Requests" "3"
 	}
  	
+/if (${Select[${Me.Class.ShortName},CLR,DRU,ENC,MAG,NEC,SHM,WIZ]}) {
+	/call WriteToIni "${Character_Ini},Misc,End MedBreak in Combat(On/Off)" Off
+} else /if (${Me.Class.ShortName.NotEqual[BRD]}) {
+	/call WriteToIni "${Character_Ini},Misc,End MedBreak in Combat(On/Off)" On
+}
+/if (${Me.Class.ShortName.NotEqual[BRD]}) /call WriteToIni "${Character_Ini},Misc,AutoMedBreak (On/Off)" Off
+
+
 	 /echo e3 loaded - Turbo ${classTurbo}
 	
 	/if (${Debug}) {

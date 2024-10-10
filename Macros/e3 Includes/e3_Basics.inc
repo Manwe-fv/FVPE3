@@ -1675,21 +1675,6 @@ SUB basics_MacroSettings
 /RETURN
 
 SUB basics_CharacterSettings
-/call WriteToIni "${Character_Ini},Misc,AutoFood" Off
-/call WriteToIni "${Character_Ini},Misc,Food"
-/call WriteToIni "${Character_Ini},Misc,Drink"
-/call WriteToIni "${Character_Ini},Misc,Anchor (Char to Anchor to)" ""
-/call WriteToIni "${genSettings_Ini},Misc,Gimmie Azure Min Requests" "2"
-/call WriteToIni "${genSettings_Ini},Misc,Gimmie Sanguine Min Requests" "1"
-/call WriteToIni "${genSettings_Ini},Misc,Gimmie Large Mod Shard Min Requests" "1"
-/call WriteToIni "${genSettings_Ini},Misc,Gimmie MoltenOrb Min Requests" "3"
-
-/if (${Select[${Me.Class.ShortName},CLR,DRU,ENC,MAG,NEC,SHM,WIZ]}) {
-	/call WriteToIni "${Character_Ini},Misc,End MedBreak in Combat(On/Off)" Off
-} else /if (${Me.Class.ShortName.NotEqual[BRD]}) {
-	/call WriteToIni "${Character_Ini},Misc,End MedBreak in Combat(On/Off)" On
-}
-/if (${Me.Class.ShortName.NotEqual[BRD]}) /call WriteToIni "${Character_Ini},Misc,AutoMedBreak (On/Off)" Off
 /RETURN
 
 Sub basics_Aliases
