@@ -616,6 +616,7 @@ SUB buffCheck_CharacterSettings
       /call WriteToIni "${Character_Ini},Buffs,Proc Buff Class" "WIZ/MAG
     }
   }
+  /call WriteToIni "${Character_Ini},Buffs,;---------------------------------"
 /RETURN
 
 Sub buffCheck_Aliases

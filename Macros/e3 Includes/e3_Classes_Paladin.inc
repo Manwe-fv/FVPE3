@@ -26,6 +26,7 @@ SUB PAL_CharacterSettings
 /if (${Debug}) /echo |- PAL_CharacterSettings ==>
 	/call WriteToIni "${Character_Ini},Paladin,Auto-Yaulp (On/Off)" Off
 	/call WriteToIni "${Character_Ini},Paladin,Yaulp Spell"
+ 	/call WriteToIni "${Character_Ini},Paladin,;---------------------------------"
 /if (${Debug}) /echo <== PAL_CharacterSettings -|
 /RETURN
 |----------------------------------------------------------------------------|

@@ -23,6 +23,15 @@ SUB DRU_MacroSettings
 |----------------------------------------------------------------------------|
 SUB DRU_CharacterSettings
 	/call WriteToIni "${Character_Ini},Druid,Evac Spell"
+ 	/call WriteToIni "${Character_Ini},Druid,;---------------------------------"
+|Create Manastone Settings
+	/call WriteToIni "${Character_Ini},Manastone,Manastone Enabled (On/Off)" Off
+	/call WriteToIni "${Character_Ini},Manastone,Min HP" 75
+	/call WriteToIni "${Character_Ini},Manastone,Out of Combat MinMana" 85
+	/call WriteToIni "${Character_Ini},Manastone,Use in Combat (On/Off)" Off
+	/call WriteToIni "${Character_Ini},Manastone,In Combat MinMana" 40
+	/call WriteToIni "${Character_Ini},Manastone,DelayBetweenLoops (in milliseconds)" 0
+  	/call WriteToIni "${Character_Ini},Manastone,;---------------------------------"
 /RETURN
 |----------------------------------------------------------------------------|
 Sub DRU_Aliases

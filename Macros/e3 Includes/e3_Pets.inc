@@ -241,6 +241,7 @@ SUB pet_CharacterSettings
     /call WriteToIni "${Character_Ini},Pets,Pet Auto-Shrink (On/Off)" Off
     /call WriteToIni "${Character_Ini},Pets,Pet Summon Combat (On/Off)" Off
     /call WriteToIni "${Character_Ini},Pets,Pet Buff Combat (On/Off)" Off
+    /call WriteToIni "${Character_Ini},Pets,;---------------------------------"
 	}
 /if (${Debug}) /echo <== pet_CharacterSettings -|
 /RETURN

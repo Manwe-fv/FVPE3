@@ -87,7 +87,7 @@ SUB SHM_MacroSettings
 	/call WriteToIni "${advSettings_Ini},SHM Functions,SHM Function#1" "check_Debuffs" 1
 	/call WriteToIni "${advSettings_Ini},SHM Functions,SHM Function#2" "check_Heals" 1
 	/call WriteToIni "${advSettings_Ini},SHM Functions,SHM Function#3" "check_Cures" 1
-  	/call WriteToIni "${advSettings_Ini},SHM Functions,SHM Function#4" "check_Buffs" 1
+  /call WriteToIni "${advSettings_Ini},SHM Functions,SHM Function#4" "check_Buffs" 1
 	/call WriteToIni "${advSettings_Ini},SHM Functions,SHM Function#5" "check_Burns" 1
 	/call WriteToIni "${advSettings_Ini},SHM Functions,SHM Function#6" "check_DoTs" 1
 	/call WriteToIni "${advSettings_Ini},SHM Functions,SHM Function#7" "check_AE" 1
@@ -102,6 +102,15 @@ SUB SHM_CharacterSettings
 /if (${Debug}) /echo |- SHM_CharacterSettings ==>
 	/call WriteToIni "${Character_Ini},Shaman,Auto-Canni (On/Off)"
 	/call WriteToIni "${Character_Ini},Shaman,Canni"
+  /call WriteToIni "${Character_Ini},Shaman,;---------------------------------"
+|Create Manastone Settings
+	/call WriteToIni "${Character_Ini},Manastone,Manastone Enabled (On/Off)" Off
+	/call WriteToIni "${Character_Ini},Manastone,Min HP" 75
+	/call WriteToIni "${Character_Ini},Manastone,Out of Combat MinMana" 85
+	/call WriteToIni "${Character_Ini},Manastone,Use in Combat (On/Off)" Off
+	/call WriteToIni "${Character_Ini},Manastone,In Combat MinMana" 40
+	/call WriteToIni "${Character_Ini},Manastone,DelayBetweenLoops (in milliseconds)" 0
+  /call WriteToIni "${Character_Ini},Manastone,;---------------------------------"
 /if (${Debug}) /echo <== SHM_CharacterSettings -|
 /RETURN
 |----------------------------------------------------------------------------|

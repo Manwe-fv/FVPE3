@@ -23,6 +23,7 @@ SUB SHD_MacroSettings
 SUB SHD_CharacterSettings
 /if (${Debug}) /echo |- SHD_CharacterSettings ==>
 	/call WriteToIni "${Character_Ini},${Me.Class},LifeTap"
+ 	/call WriteToIni "${Character_Ini},${Me.Class},;---------------------------------"
 /if (${Debug}) /echo <== SHD_CharacterSettings -|
 /RETURN
 |----------------------------------------------------------------------------|

@@ -25,6 +25,7 @@ Sub BST_CharacterSettings
 	/call WriteToIni "${Character_Ini},Auto Paragon,Auto Focused Paragon (On/Off)" Off
 	/call WriteToIni "${Character_Ini},Auto Paragon,Focused Paragon Spell"
 	/call WriteToIni "${Character_Ini},Auto Paragon,Character"
+ 	/call WriteToIni "${Character_Ini},Auto Paragon,;---------------------------------"
 /return
 |----------------------------------------------------------------------------|
 Sub BST_Setup

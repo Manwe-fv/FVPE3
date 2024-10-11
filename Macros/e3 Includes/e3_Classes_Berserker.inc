@@ -43,6 +43,7 @@ SUB BER_MacroSettings
 |----------------------------------------------------------------------------|
 SUB BER_CharacterSettings
 	/call WriteToIni "${Character_Ini},${Me.Class},Axe Ability" "Axe of the Destroyer/Reagent|Balanced Axe Components/CheckFor|20"
+ 	/call WriteToIni "${Character_Ini},${Me.Class},;---------------------------------"
 /RETURN
 |----------------------------------------------------------------------------|
 Sub BER_Aliases

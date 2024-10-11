@@ -87,6 +87,7 @@ SUB ROG_CharacterSettings
 	/call WriteToIni "${Character_Ini},${Me.Class},PoisonPR" "Bite of the Shissar XII"
 	/call WriteToIni "${Character_Ini},${Me.Class},PoisonFR" "Solusek's Burn XII"
 	/call WriteToIni "${Character_Ini},${Me.Class},PoisonCR" "E`ci's Lament XII"
+ 	/call WriteToIni "${Character_Ini},${Me.Class},;---------------------------------"
 	/if (${Debug}) /echo <== ROG_CharacterSettings -|
 /RETURN
 |----------------------------------------------------------------------------|

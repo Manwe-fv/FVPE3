@@ -1383,6 +1383,7 @@ SUB heal_CharacterSettings
 /if (${Debug}) /echo |- heal_CharacterSettings ==>
 	| LifeSupport entries.
 	/call WriteToIni "${Character_Ini},Life Support,Life Support"
+	/call WriteToIni "${Character_Ini},Life Support,;---------------------------------"
 	| If I'm a healer, add e3_Macro_Heals.inc entries.
 	/if (${Select[${Me.Class.ShortName},CLR,DRU,SHM,BST,PAL,RNG]}) {
 		/call WriteToIni "${Character_Ini},Heals,Tank"
@@ -1399,6 +1400,7 @@ SUB heal_CharacterSettings
     |/if (${Select[${Me.Class.ShortName},CLR,SHM]}) /call WriteToIni "${Character_Ini},Heals,;Group Hot" "Not Implemented"
     /call WriteToIni "${Character_Ini},Heals,Who to Heal" "Tanks/ImportantBots/All/Pets"
     /if (${Select[${Me.Class.ShortName},CLR,DRU,PAL,SHM]}) /call WriteToIni "${Character_Ini},Heals,Who to HoT"
+	/call WriteToIni "${Character_Ini},Heals,;---------------------------------"
 	}
 /if (${Debug}) /echo <== heal_CharacterSettings -|
 /RETURN

@@ -226,17 +226,21 @@ SUB assist_CharacterSettings
   | Default Tanks to Front
   /if (${Select[${Me.Class.ShortName},PAL,SHD,WAR]}) {
     /call WriteToIni "${Character_Ini},Assist Settings,Melee Stick Point" Front
-    /call WriteToIni "${Character_Ini},Assist Settings,Taunt(On/Off)" Off
-    /call WriteToIni "${Character_Ini},Assist Settings,SmartTaunt(On/Off)" On
+    /call WriteToIni "${Character_Ini},Assist Settings,Taunt(On/Off)" On
+    /call WriteToIni "${Character_Ini},Assist Settings,SmartTaunt(On/Off)" Off
   } else {
     /call WriteToIni "${Character_Ini},Assist Settings,Melee Stick Point" Behind
   }
 	/call WriteToIni "${Character_Ini},Assist Settings,Melee Distance" MaxMelee
 	/call WriteToIni "${Character_Ini},Assist Settings,Ranged Distance" 100
   /call WriteToIni "${Character_Ini},Assist Settings,Auto-Assist Engage Percent" 98
-	| If I'm a melee class, add Melee Abilities entries.
+	/call WriteToIni "${Character_Ini},Assist Settings,;---------------------------------"
+  | If I'm a melee class, add Melee Abilities entries.
 	/if (${Select[${Me.Class.ShortName},BRD,BER,BST,MNK,PAL,RNG,ROG,SHD,WAR,CLR]}) {
-		/if (!${Ini[${Character_Ini},Melee Abilities].Length}) /call WriteToIni "${Character_Ini},Melee Abilities,Ability"
+		/if (!${Ini[${Character_Ini},Melee Abilities].Length}) {
+      /call WriteToIni "${Character_Ini},Melee Abilities,Ability"
+      /call WriteToIni "${Character_Ini},Melee Abilities,;---------------------------------"
+    }
 	}
 	| If I'm a casting class, add Nuke entries.
 	/if (${Select[${Me.Class.ShortName},BST,CLR,DRU,ENC,MAG,PAL,NEC,RNG,SHD,SHM,WIZ]}) {
@@ -257,6 +261,7 @@ SUB assist_CharacterSettings
         /call WriteToIni "${Character_Ini},Nukes,FastMagic"
         /call WriteToIni "${Character_Ini},Nukes,LureMagic"
       }
+    /call WriteToIni "${Character_Ini},Nukes,;---------------------------------"
     }
 	}
 
@@ -273,6 +278,7 @@ SUB assist_CharacterSettings
       /if (${Select[${Me.Class.ShortName},NEC,SHD,SHM,BST]}) /call WriteToIni "${Character_Ini},DoTs on Assist,Poison"
       /if (${Select[${Me.Class.ShortName},NEC,SHD,SHM,BST]}) /call WriteToIni "${Character_Ini},DoTs on Assist,Disease"
       /if (${Select[${Me.Class.ShortName},DRU,NEC]}) /call WriteToIni "${Character_Ini},DoTs on Assist,Fire"
+      /call WriteToIni "${Character_Ini},DoTs on Assist,;---------------------------------"
     }
     /if (!${Ini[${Character_Ini},DoTs on Command].Length}) {
       /call WriteToIni "${Character_Ini},DoTs on Command,Main"
@@ -280,25 +286,34 @@ SUB assist_CharacterSettings
       /if (${Select[${Me.Class.ShortName},NEC,SHD,SHM,BST]}) /call WriteToIni "${Character_Ini},DoTs on Command,Poison"
       /if (${Select[${Me.Class.ShortName},NEC,SHD,SHM,BST]}) /call WriteToIni "${Character_Ini},DoTs on Command,Disease"
       /if (${Select[${Me.Class.ShortName},DRU,NEC]}) /call WriteToIni "${Character_Ini},DoTs on Command,Fire"
+      /call WriteToIni "${Character_Ini},DoTs on Command,;---------------------------------"
     }
 	}
 	| If I'm a casting class, add Debuff entries.
-	/if (${Select[${Me.Class.ShortName},BST,DRU,ENC,MAG,NEC,SHM,RNG]}) {
+	/if (${Select[${Me.Class.ShortName},PAL,BST,DRU,ENC,MAG,NEC,SHM,RNG]}) {
 		/if (!${Ini[${Character_Ini},Debuffs].Length}) {
 			/call WriteToIni "${Character_Ini},Debuffs,Debuff on Assist"
 			/call WriteToIni "${Character_Ini},Debuffs,Debuff on Command"
+      /call WriteToIni "${Character_Ini},Debuffs,;---------------------------------"
 		}
 	}
 	| If I'm a casting class, add AE entries.
 	/if (${Select[${Me.Class.ShortName},CLR,ENC,DRU,MAG,SHM,WIZ,RNG]}) {
-		/if (!${Ini[${Character_Ini},TargetAE].Length}) /call WriteToIni "${Character_Ini},TargetAE,TargetAE"
-    /if (!${Ini[${Character_Ini},PBAE].Length}) /call WriteToIni "${Character_Ini},PBAE,PBAE"
+		/if (!${Ini[${Character_Ini},TargetAE].Length}) {
+      /call WriteToIni "${Character_Ini},TargetAE,TargetAE"
+      /call WriteToIni "${Character_Ini},TargetAE,;---------------------------------"
+    }
+    /if (!${Ini[${Character_Ini},PBAE].Length}) {
+      /call WriteToIni "${Character_Ini},PBAE,PBAE"
+      /call WriteToIni "${Character_Ini},PBAE,;---------------------------------"
+    }
 	}
 	| Burn entries.
 	/if (!${Ini[${Character_Ini},Burn].Length}) {
 		/call WriteToIni "${Character_Ini},Burn,Quick Burn"
     /call WriteToIni "${Character_Ini},Burn,Long Burn"
 		/call WriteToIni "${Character_Ini},Burn,Full Burn"
+    /call WriteToIni "${Character_Ini},Burn,;---------------------------------"
 	}
 /if (${Debug}) /echo <== assist_CharacterSettings -|
 /RETURN

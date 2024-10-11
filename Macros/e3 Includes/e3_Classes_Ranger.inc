@@ -24,6 +24,7 @@ SUB RNG_MacroSettings
 |----------------------------------------------------------------------------|
 SUB RNG_CharacterSettings
   /call WriteToIni "${Character_Ini},${Me.Class},TargetAE Ranged (On/Off)" Off
+ 	/call WriteToIni "${Character_Ini},${Me.Class},;---------------------------------"
 /return
 |----------------------------------------------------------------------------|
 Sub RNG_Aliases

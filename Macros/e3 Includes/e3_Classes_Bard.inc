@@ -855,6 +855,7 @@ SUB BRD_CharacterSettings
   /call WriteToIni "${Character_Ini},Bard,Auto-Sonata (On/Off)" Off
   /call WriteToIni "${Character_Ini},Bard,MelodyIf"
   /call WriteToIni "${Character_Ini},Bard,SongPlayer" Twist
+  /call WriteToIni "${Character_Ini},Bard,;---------------------------------"
 /RETURN
 |--------------------------------------------------------------|
 Sub BRD_Aliases
