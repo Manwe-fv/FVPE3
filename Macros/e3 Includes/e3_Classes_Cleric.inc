@@ -16,9 +16,9 @@ SUB event_manastone
 |----------------------------------------------------------------------------|
 SUB check_Yaulp
 /if (${Debug}) /echo |- check_clrYaulp ==>
-  /if (${AutoYaulp} && ${Me.Combat} && !${medBreak} && !${Me.Moving} && !${Me.Invis}) {
+  /if (${AutoYaulp} && ${Me.Combat} && !${Me.Moving} && !${Me.Invis}) {
     /declare castName string local ${yaulpSpell.Arg[1,/]}
-    /if (!${Bool[${Me.Buff[${castName}]}]} && ${Me.PctMana} < 95 && ${Spell[${castName}].NewStacks}) {
+    /if (!${Bool[${Me.Buff[${castName}]}]} && ${Spell[${castName}].NewStacks}) {
       /if (${Target.ID}) /declare tempTarget int local ${Target.ID}
       /call castSimpleSpell "${castName}" 0
     }
