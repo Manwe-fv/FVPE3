@@ -2342,7 +2342,6 @@ sub notifyViaBCTell(targetToTell, messageToSend)
 |- Gimme=Focus|Azure Mind Crystal|300s
 |----------------------------------------------------------------------------|
 SUB check_Gimme
- 
 	/if (${Debug}) /echo |- check_Gimme ==>
   /if (${Waiting4Rez}) /return
   /if (${Bool[${Me.Buff[Resurrection Sickness]}]}) /return
