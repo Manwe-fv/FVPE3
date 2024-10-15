@@ -2448,7 +2448,6 @@ SUB check_Supply
   /call check_AmIDead 10 5
   /if (${Macro.Return}) /return
 	/if (!${Defined[SupplyEnabled]}) /declare SupplyEnabled bool outer ${Bool[${Ini[${Character_Ini},Supply]}]}
-  
   /if (!${SupplyEnabled}) /goto :endsupply
   /if (${Bool[${Cursor.ID}]}) /goto :endsupply
   /if (${Me.CombatState.Equal[DEBUFFED]}) /goto :endsupply
@@ -2458,8 +2457,8 @@ SUB check_Supply
   /if (${Me.Combat}) /goto :endsupply
   /if (${Assisting}) /goto :endsupply
   /if (${Me.PctAggro} > 0) /goto :endsupply
- 
-  /if (${Me.PctMana} == 100 && ${Me.PctHPs} == 100 ) { 
+  |TODO add variable for minmana - currently at 85
+  /if (${Me.PctMana} >= 85 && ${Me.PctHPs} == 100 ) { 
 		
     /if (!${Defined[Supply]}) /call IniToArrayV "${Character_Ini},Supply,Supply#" Supply
 		/declare i int local
@@ -2480,7 +2479,8 @@ SUB check_Supply
         /varset supplyQuantity 1
       }
 			/if (!${Defined[SupplyTimer${i}]}) /declare SupplyTimer${i} timer outer 0
-      /if (${FindItemCount[${supplyItem}]} < ${supplyQuantity} && ${SupplyTimer${i}} == 0 && ) {
+      /if (${FindItemCount[${supplyItem}]} < ${supplyQuantity} && ${SupplyTimer${i}} == 0) {
+      /echo |- supplyItem ==> supplyGem ${FindItemCount[${supplyItem}]}
         /if (${FindItem[${supplyItem}].Lore} && ${supplyQuantity} > 1 && !${supplyItem.Equal[Summoned: Large Modulation Shard]}) {
           /if (${Debug}) /echo [${Time}]: Supply item ${supplyItem} is Lore but has a specified quantity of ${supplyQuantity}
           /return
