@@ -1675,24 +1675,6 @@ SUB basics_MacroSettings
 /RETURN
 
 SUB basics_CharacterSettings
-/if (${Debug}) /echo |- basics_CharacterSettings ==>
-  /if (${Me.Class.ShortName.NotEqual[BRD]}) {
-	/call WriteToIni "${Character_Ini},Misc,AutoMedBreak (On/Off)" Off
-	}
-  /if (${Select[${Me.Class.ShortName},CLR,DRU,ENC,MAG,NEC,SHM,WIZ]}) {
-	/call WriteToIni "${Character_Ini},Misc,End MedBreak in Combat(On/Off)" Off
-  } else /if (${Me.Class.ShortName.NotEqual[BRD]}) {
-	/call WriteToIni "${Character_Ini},Misc,End MedBreak in Combat(On/Off)" On
-  }
-  /call WriteToIni "${Character_Ini},Misc,Anchor (Char to Anchor to)" ""
-	/call WriteToIni "${Character_Ini},Misc,AutoFood" "Off"
-	/call WriteToIni "${Character_Ini},Misc,Food" ""
-	/call WriteToIni "${Character_Ini},Misc,Drink" ""
-  /if (${Select[${Me.Class.ShortName},BRD,DRU,RNG]}) {
-	/call WriteToIni "${Character_Ini},Misc,AutoForage" Off
-  }
-  /call WriteToIni "${Character_Ini},Misc,;---------------------------------"
-/if (${Debug}) /echo <== basics_CharacterSettings -|
 /RETURN
 
 Sub basics_Aliases
@@ -2342,6 +2324,7 @@ sub notifyViaBCTell(targetToTell, messageToSend)
 |- Gimme=Focus|Azure Mind Crystal|300s
 |----------------------------------------------------------------------------|
 SUB check_Gimme
+ 
 	/if (${Debug}) /echo |- check_Gimme ==>
   /if (${Waiting4Rez}) /return
   /if (${Bool[${Me.Buff[Resurrection Sickness]}]}) /return
@@ -2447,6 +2430,7 @@ SUB check_Supply
   /call check_AmIDead 10 5
   /if (${Macro.Return}) /return
 	/if (!${Defined[SupplyEnabled]}) /declare SupplyEnabled bool outer ${Bool[${Ini[${Character_Ini},Supply]}]}
+  
   /if (!${SupplyEnabled}) /goto :endsupply
   /if (${Bool[${Cursor.ID}]}) /goto :endsupply
   /if (${Me.CombatState.Equal[DEBUFFED]}) /goto :endsupply
@@ -2456,8 +2440,8 @@ SUB check_Supply
   /if (${Me.Combat}) /goto :endsupply
   /if (${Assisting}) /goto :endsupply
   /if (${Me.PctAggro} > 0) /goto :endsupply
-  |TODO add variable for minmana - currently at 85
-  /if (${Me.PctMana} >= 85 && ${Me.PctHPs} == 100 ) { 
+ 
+  /if (${Me.PctMana} == 100 && ${Me.PctHPs} == 100 ) { 
 		
     /if (!${Defined[Supply]}) /call IniToArrayV "${Character_Ini},Supply,Supply#" Supply
 		/declare i int local
@@ -2478,8 +2462,7 @@ SUB check_Supply
         /varset supplyQuantity 1
       }
 			/if (!${Defined[SupplyTimer${i}]}) /declare SupplyTimer${i} timer outer 0
-      /if (${FindItemCount[${supplyItem}]} < ${supplyQuantity} && ${SupplyTimer${i}} == 0) {
-      /echo |- supplyItem ==> supplyGem ${FindItemCount[${supplyItem}]}
+      /if (${FindItemCount[${supplyItem}]} < ${supplyQuantity} && ${SupplyTimer${i}} == 0 && ) {
         /if (${FindItem[${supplyItem}].Lore} && ${supplyQuantity} > 1 && !${supplyItem.Equal[Summoned: Large Modulation Shard]}) {
           /if (${Debug}) /echo [${Time}]: Supply item ${supplyItem} is Lore but has a specified quantity of ${supplyQuantity}
           /return
@@ -3124,75 +3107,9 @@ Sub check_Basics
 |- in e3 Macro Inis/Advanced Settings.ini                  -|
 |-  ex:   MAG Function#10=check_Manastone                  -|
 |-----------------------------------------------------------|
-|SUB check_Manastone
-|/if (${Debug}) /echo |- check_Manastone ==>
-|    /if ((!${Me.CombatState.Equal[DEBUFFED]}) && !${Me.Invis} && ${Bool[${FindItem[=Manastone]}]} && ${Me.PctMana} < 85 && ${Me.PctHPs} > 75 && ${Me.PctAggro} < 1 && !${Me.CombatState.Equal[COMBAT]} )    /ItemNotify Manastone rightmouseup    
-|/if (${Debug}) /echo <== check_Manastone -|
-|/RETURN
-
 SUB check_Manastone
 /if (${Debug}) /echo |- check_Manastone ==>
-
-/if (!${Defined[ManastoneEnabled]}) {
-    /call iniToVarV "${Character_Ini},Manastone,Manastone Enabled (On/Off)" ManastoneEnabled bool outer
-    /call iniToVarV "${Character_Ini},Manastone,Min HP" MinHP int outer
-    /call iniToVarV "${Character_Ini},Manastone,Out of Combat MinMana" OOCMinMana int outer
-    /call iniToVarV "${Character_Ini},Manastone,Use in Combat (On/Off)" UseInCombat bool outer
-    /call iniToVarV "${Character_Ini},Manastone,In Combat MinMana" ICMinMana int outer
-    /call iniToVarV "${Character_Ini},Manastone,DelayBetweenLoops (in milliseconds)" DelayBetweenLoops int outer
-
-    /if (${Debug}) {
-        /echo ManastoneEnabled: ${ManastoneEnabled}
-        /echo MinHP: ${MinHP}
-        /echo OOCMinMana: ${OOCMinMana}
-        /echo UseInCombat: ${UseInCombat}
-        /echo ICMinMana: ${ICMinMana}
-        /echo DelayBetweenLoops: ${DelayBetweenLoops}
-    }
-}
-
-/if (${Debug}) {
-    /echo ManastoneEnabled: ${ManastoneEnabled}
-    /echo Have Manastone: ${Bool[${FindItem[=Manastone].ID}]}
-    /echo Me.Invis: ${Me.Invis}
-    /echo Me.PctHPs: ${Me.PctHPs}
-    /echo MinHP: ${MinHP}
-    /echo Me.PctAggro: ${Me.PctAggro}
-    /echo Me.CombatState: ${Me.CombatState}
-    /echo Me.PctMana: ${Me.PctMana}
-}
-
-/if (${ManastoneEnabled} && ${FindItem[=Manastone].ID} && !${Me.Invis} && ${Me.PctHPs} > ${MinHP} && ${Me.PctAggro} < 1 && !${Me.CombatState.Equal[DEBUFFED]}) {
-    /if (${Debug}) /echo Passed main condition
-
-    /if (${Me.CombatState.Equal[COMBAT]} && ${UseInCombat}) {
-        /if (${Debug}) {
-            /echo In Combat and UseInCombat is TRUE
-            /echo Me.PctMana: ${Me.PctMana}
-            /echo ICMinMana: ${ICMinMana}
-        }
-        /if (${Me.PctMana} < ${ICMinMana}) {
-            /if (${Debug}) /echo Using Manastone in Combat
-            /ItemNotify Manastone rightmouseup
-            /delay ${DelayBetweenLoops}ms
-        }
-    } else {
-        /if (${Me.CombatState.Equal[COMBAT]} && !${UseInCombat}) {
-            /if (${Debug}) /echo In Combat and UseInCombat is FALSE - Not using Manastone
-        } else {
-            /if (${Debug}) {
-                /echo Out of Combat
-                /echo Me.PctMana: ${Me.PctMana}
-                /echo OOCMinMana: ${OOCMinMana}
-            }
-            /if (${Me.PctMana} < ${OOCMinMana}) {
-                /if (${Debug}) /echo Using Manastone out of Combat
-                /ItemNotify Manastone rightmouseup
-                /delay ${DelayBetweenLoops}ms
-            }
-        }
-    }
-}
-
+    /if ((!${Me.CombatState.Equal[DEBUFFED]}) && !${Me.Invis} && ${Bool[${FindItem[=Manastone]}]} && ${Me.PctMana} < 85 && ${Me.PctHPs} > 75 && ${Me.PctAggro} < 1 && !${Me.CombatState.Equal[COMBAT]} )    /ItemNotify Manastone rightmouseup    
 /if (${Debug}) /echo <== check_Manastone -|
 /RETURN
+
