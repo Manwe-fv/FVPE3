@@ -1675,6 +1675,24 @@ SUB basics_MacroSettings
 /RETURN
 
 SUB basics_CharacterSettings
+/if (${Debug}) /echo |- basics_CharacterSettings ==>
+  /if (${Me.Class.ShortName.NotEqual[BRD]}) {
+	/call WriteToIni "${Character_Ini},Misc,AutoMedBreak (On/Off)" Off
+	}
+  /if (${Select[${Me.Class.ShortName},CLR,DRU,ENC,MAG,NEC,SHM,WIZ]}) {
+	/call WriteToIni "${Character_Ini},Misc,End MedBreak in Combat(On/Off)" Off
+  } else /if (${Me.Class.ShortName.NotEqual[BRD]}) {
+	/call WriteToIni "${Character_Ini},Misc,End MedBreak in Combat(On/Off)" On
+  }
+  /call WriteToIni "${Character_Ini},Misc,Anchor (Char to Anchor to)" ""
+	/call WriteToIni "${Character_Ini},Misc,AutoFood" "Off"
+	/call WriteToIni "${Character_Ini},Misc,Food" ""
+	/call WriteToIni "${Character_Ini},Misc,Drink" ""
+  /if (${Select[${Me.Class.ShortName},BRD,DRU,RNG]}) {
+	/call WriteToIni "${Character_Ini},Misc,AutoForage" Off
+  }
+  /call WriteToIni "${Character_Ini},Misc,;---------------------------------"
+/if (${Debug}) /echo <== basics_CharacterSettings -|
 /RETURN
 
 Sub basics_Aliases
@@ -2288,6 +2306,7 @@ sub event_gimme(line, ChatSender, RequestedItem)
 	
 	
 /return
+
 sub notifyViaBCTell(targetToTell, messageToSend)
   /declare IsTargetMyBot bool local False
 	/varset IsTargetMyBot ${Bool[${Select[${targetToTell}, ${NetBots.Client}]}]}		
@@ -2326,7 +2345,7 @@ sub notifyViaBCTell(targetToTell, messageToSend)
 SUB check_Gimme
  
 	/if (${Debug}) /echo |- check_Gimme ==>
-  /if (${Waiting4Rez}) /return
+  /if (${Waiting4Rez}) /return 
   /if (${Bool[${Me.Buff[Resurrection Sickness]}]}) /return
 	/declare DebugCheckGimme local false
   /declare DoINeedBags bool local false
@@ -2336,6 +2355,7 @@ SUB check_Gimme
 		/if (!${Defined[gimmeCharacter]}) /declare gimmeCharacter string local NULL
 		/if (!${Defined[gimmeItem]}) /declare gimmeItem string local NULL
 		/if (!${Defined[gimmeTimeout]}) /declare gimmeTimeout timer local NULL
+    /if (!${Defined[gimmeQuantity]}) /declare gimmeQuantity int local NULL
 		| Loop through the string, then loop through each of the items on that key		
 		/declare i int local
 		/declare IsTargetMyBot bool local false
@@ -2343,17 +2363,35 @@ SUB check_Gimme
 			/varset gimmeCharacter ${Gimmies[${i}].Arg[1,|]}
 			/varset gimmeItem ${Gimmies[${i}].Arg[2,|]}
 			/varset gimmeTimeout ${Gimmies[${i}].Arg[3,|]}
-			
-       /if ((${gimmeItem.Equal[Azure Mind Crystal III]} ||${gimmeItem.Equal[Summoned: Large Modulation Shard]} || ${gimmeItem.Equal[Sanguine Mind Crystal III]} ||${gimmeItem.Equal[Molten orb]})) { 
-         
+      /if (${Gimmies[${i}].Arg[4,|]}) {
+        /varset gimmeQuantity ${Gimmies[${i}].Arg[4,|]}
+      } else {
+        /varset gimmeQuantity 1
+      }
+
+      /if (${gimmeItem.Equal[Pet Weapons]}) {
+          /declare HeirloomBag string local Folded Pack of Enibik's Heirlooms
+          /declare ArmorBag string local Folded Pack of Spectral Plate
+          /declare WeaponBag string local Folded Pack of Spectral Armaments
+          /if (!${Bool[${FindItem[=${HeirloomBag}]}]}) {
+              /varset DoINeedBags true
+          }
+          /if (!${Bool[${FindItem[=${ArmorBag}]}]}) {
+              /varset DoINeedBags true
+          }  
+          /if (!${Bool[${FindItem[=${WeaponBag}]}]}) {
+              /varset DoINeedBags true
+          }
+      }
+
+      /if ((${gimmeItem.Equal[Azure Mind Crystal III]} ||${gimmeItem.Equal[Summoned: Large Modulation Shard]} || ${gimmeItem.Equal[Sanguine Mind Crystal III]} ||${gimmeItem.Equal[Molten orb]})) { 
          |if we are not part of the group, don't ask
-           |if not a group member requesting it, kick out
+         |if not a group member requesting it, kick out
           /if (!${Bool[${Group.Member[${Group.Member[${gimmeCharacter}].Index}]}]}) {
             	/if (${Debug}) /echo ${gimmeCharacter} skipping gimme
             /goto :skipgGimme
           }
-         
-       }
+      }
 
 			| If it's my bot, check if the target bot is available to gimme
 			/varset IsTargetMyBot ${Bool[${Select[${gimmeCharacter}, ${NetBots.Client}]}]}			
@@ -2368,38 +2406,25 @@ SUB check_Gimme
 			} else {
 				/if (!${Defined[GimmeTimer${i}]}) /declare GimmeTimer${i} timer outer 0
 
-        /if (${gimmeItem.Equal[Pet Weapons]}) {
-            /declare HeirloomBag string local Folded Pack of Enibik's Heirlooms
-            /declare ArmorBag string local Folded Pack of Spectral Plate
-            /declare WeaponBag string local Folded Pack of Spectral Armaments
-            /if (!${Bool[${FindItem[=${HeirloomBag}]}]}) {
-                /varset DoINeedBags true
-            }
-            /if (!${Bool[${FindItem[=${ArmorBag}]}]}) {
-                /varset DoINeedBags true
-            }  
-            /if (!${Bool[${FindItem[=${WeaponBag}]}]}) {
-                /varset DoINeedBags true
-            }
-
-
+        /if (${FindItem[${gimmeItem}].Lore} && ${gimmeQuantity} > 1 && !${gimmeItem.Equal[Summoned: Large Modulation Shard]}) {
+          /if (${Debug}) /echo [${Time}]: Gimme item ${gimmeItem} is Lore but has a specified quantity of ${gimmeQuantity}
+          /goto :skipgGimme
         }
 
-				/if (!${Bool[${FindItem[=${gimmeItem}]}]} && ${GimmeTimer${i}} == 0 && ${Bool[${Spawn[${gimmeCharacter}]}]}) {
-					/if (${Bool[${Spawn[pc ${gimmeCharacter}]}]}) {
-						/echo ==> Gimme: Hey ${gimmeCharacter} Gimme a ${gimmeItem}
-						/delay 1
-            /call notifyViaBCTell ${gimmeCharacter} "Gimme ${gimmeItem}"
-					}
-					/varset GimmeTimer${i} ${gimmeTimeout}
-					/return
-				}
+        /if (${FindItemCount[${gimmeItem}]} < ${gimmeQuantity} && ${GimmeTimer${i}} == 0 && ${Bool[${Spawn[${gimmeCharacter}]}]}) {
+          /if (${Bool[${Spawn[pc ${gimmeCharacter}]}]}) {
+            /echo ==> Gimme: Hey ${gimmeCharacter} Gimme ${gimmeQuantity} x ${gimmeItem}
+            /delay 1
+            /call notifyViaBCTell ${gimmeCharacter} "Gimme ${gimmeQuantity} ${gimmeItem}"
+          }
+          /varset GimmeTimer${i} ${gimmeTimeout}
+          /return
+        }
 			}
       :skipgGimme
 		/next i
 	}
 	/if (${Debug}) /echo <== check_Gimme -|
- 
 /RETURN
 
 |----------------------------------------------------------------------------|
@@ -2430,7 +2455,6 @@ SUB check_Supply
   /call check_AmIDead 10 5
   /if (${Macro.Return}) /return
 	/if (!${Defined[SupplyEnabled]}) /declare SupplyEnabled bool outer ${Bool[${Ini[${Character_Ini},Supply]}]}
-  
   /if (!${SupplyEnabled}) /goto :endsupply
   /if (${Bool[${Cursor.ID}]}) /goto :endsupply
   /if (${Me.CombatState.Equal[DEBUFFED]}) /goto :endsupply
@@ -2440,8 +2464,8 @@ SUB check_Supply
   /if (${Me.Combat}) /goto :endsupply
   /if (${Assisting}) /goto :endsupply
   /if (${Me.PctAggro} > 0) /goto :endsupply
- 
-  /if (${Me.PctMana} == 100 && ${Me.PctHPs} == 100 ) { 
+  |TODO add variable for minmana - currently at 85
+  /if (${Me.PctMana} >= 85 && ${Me.PctHPs} == 100 ) { 
 		
     /if (!${Defined[Supply]}) /call IniToArrayV "${Character_Ini},Supply,Supply#" Supply
 		/declare i int local
@@ -2462,7 +2486,8 @@ SUB check_Supply
         /varset supplyQuantity 1
       }
 			/if (!${Defined[SupplyTimer${i}]}) /declare SupplyTimer${i} timer outer 0
-      /if (${FindItemCount[${supplyItem}]} < ${supplyQuantity} && ${SupplyTimer${i}} == 0 && ) {
+      /if (${FindItemCount[${supplyItem}]} < ${supplyQuantity} && ${SupplyTimer${i}} == 0) {
+      /echo |- supplyItem ==> supplyGem ${FindItemCount[${supplyItem}]}
         /if (${FindItem[${supplyItem}].Lore} && ${supplyQuantity} > 1 && !${supplyItem.Equal[Summoned: Large Modulation Shard]}) {
           /if (${Debug}) /echo [${Time}]: Supply item ${supplyItem} is Lore but has a specified quantity of ${supplyQuantity}
           /return
@@ -3107,9 +3132,75 @@ Sub check_Basics
 |- in e3 Macro Inis/Advanced Settings.ini                  -|
 |-  ex:   MAG Function#10=check_Manastone                  -|
 |-----------------------------------------------------------|
+|SUB check_Manastone
+|/if (${Debug}) /echo |- check_Manastone ==>
+|    /if ((!${Me.CombatState.Equal[DEBUFFED]}) && !${Me.Invis} && ${Bool[${FindItem[=Manastone]}]} && ${Me.PctMana} < 85 && ${Me.PctHPs} > 75 && ${Me.PctAggro} < 1 && !${Me.CombatState.Equal[COMBAT]} )    /ItemNotify Manastone rightmouseup    
+|/if (${Debug}) /echo <== check_Manastone -|
+|/RETURN
+
 SUB check_Manastone
 /if (${Debug}) /echo |- check_Manastone ==>
-    /if ((!${Me.CombatState.Equal[DEBUFFED]}) && !${Me.Invis} && ${Bool[${FindItem[=Manastone]}]} && ${Me.PctMana} < 85 && ${Me.PctHPs} > 75 && ${Me.PctAggro} < 1 && !${Me.CombatState.Equal[COMBAT]} )    /ItemNotify Manastone rightmouseup    
+
+/if (!${Defined[ManastoneEnabled]}) {
+    /call iniToVarV "${Character_Ini},Manastone,Manastone Enabled (On/Off)" ManastoneEnabled bool outer
+    /call iniToVarV "${Character_Ini},Manastone,Min HP" MinHP int outer
+    /call iniToVarV "${Character_Ini},Manastone,Out of Combat MinMana" OOCMinMana int outer
+    /call iniToVarV "${Character_Ini},Manastone,Use in Combat (On/Off)" UseInCombat bool outer
+    /call iniToVarV "${Character_Ini},Manastone,In Combat MinMana" ICMinMana int outer
+    /call iniToVarV "${Character_Ini},Manastone,DelayBetweenLoops (in milliseconds)" DelayBetweenLoops int outer
+
+    /if (${Debug}) {
+        /echo ManastoneEnabled: ${ManastoneEnabled}
+        /echo MinHP: ${MinHP}
+        /echo OOCMinMana: ${OOCMinMana}
+        /echo UseInCombat: ${UseInCombat}
+        /echo ICMinMana: ${ICMinMana}
+        /echo DelayBetweenLoops: ${DelayBetweenLoops}
+    }
+}
+
+/if (${Debug}) {
+    /echo ManastoneEnabled: ${ManastoneEnabled}
+    /echo Have Manastone: ${Bool[${FindItem[=Manastone].ID}]}
+    /echo Me.Invis: ${Me.Invis}
+    /echo Me.PctHPs: ${Me.PctHPs}
+    /echo MinHP: ${MinHP}
+    /echo Me.PctAggro: ${Me.PctAggro}
+    /echo Me.CombatState: ${Me.CombatState}
+    /echo Me.PctMana: ${Me.PctMana}
+}
+
+/if (${ManastoneEnabled} && ${FindItem[=Manastone].ID} && !${Me.Invis} && ${Me.PctHPs} > ${MinHP} && ${Me.PctAggro} < 1 && !${Me.CombatState.Equal[DEBUFFED]}) {
+    /if (${Debug}) /echo Passed main condition
+
+    /if (${Me.CombatState.Equal[COMBAT]} && ${UseInCombat}) {
+        /if (${Debug}) {
+            /echo In Combat and UseInCombat is TRUE
+            /echo Me.PctMana: ${Me.PctMana}
+            /echo ICMinMana: ${ICMinMana}
+        }
+        /if (${Me.PctMana} < ${ICMinMana}) {
+            /if (${Debug}) /echo Using Manastone in Combat
+            /ItemNotify Manastone rightmouseup
+            /delay ${DelayBetweenLoops}ms
+        }
+    } else {
+        /if (${Me.CombatState.Equal[COMBAT]} && !${UseInCombat}) {
+            /if (${Debug}) /echo In Combat and UseInCombat is FALSE - Not using Manastone
+        } else {
+            /if (${Debug}) {
+                /echo Out of Combat
+                /echo Me.PctMana: ${Me.PctMana}
+                /echo OOCMinMana: ${OOCMinMana}
+            }
+            /if (${Me.PctMana} < ${OOCMinMana}) {
+                /if (${Debug}) /echo Using Manastone out of Combat
+                /ItemNotify Manastone rightmouseup
+                /delay ${DelayBetweenLoops}ms
+            }
+        }
+    }
+}
+
 /if (${Debug}) /echo <== check_Manastone -|
 /RETURN
-
