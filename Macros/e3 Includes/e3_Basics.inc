@@ -1032,7 +1032,15 @@ SUB EVENT_EndMacro
 SUB EVENT_medOn(line, ChatSender)
 /if (${Debug} || ${Debug_Basics}) /echo |- EVENT_medOn ==>
   /if (!${checkEventArgs[${ChatSender},${line},UZR]}) /return
-  /varset medBreak TRUE
+  /if (${Me.Class.ShortName.NotEqual[BRD]}) {
+      /docommand ${ChatToggle} Meditating...
+      /varset medBreak TRUE
+      /if (${line.Find[ Hold]}) {
+        /varset medBreak_Hold TRUE
+      } else {
+        /varset medBreak_Hold FALSE
+      }
+  }
 /if (${Debug} || ${Debug_Basics}) /echo <== EVENT_medOn -|
 /RETURN
 
@@ -1047,7 +1055,6 @@ SUB EVENT_medOff(line, ChatSender)
     /docommand ${ChatToggle} Ending Medbreak.
     /varset medBreak FALSE
     /varset medBreak_Hold FALSE
-    |/if (${Ini[${Character_Ini},Assist Settings,Assist Type (Melee/Ranged/Off)].Length}) /call iniToVarV "${Character_Ini},Assist Settings,Assist Type (Melee/Ranged/Off)" AssistType string outer
     /if (${Me.Sitting}) /stand
   }
 /if (${Debug} || ${Debug_Basics}) /echo <== EVENT_medOff -|
@@ -1059,55 +1066,30 @@ SUB EVENT_medOff(line, ChatSender)
 |--------------------------------------------------------------------------------|
 SUB check_MedBreak
 /if (${Debug} || ${Debug_Basics}) /echo |- check_MedBreak ==>
-
-  /if (!${Bool[${medBreak}]} || ${Select[${Me.Class.ShortName},BRD]}) {
-    /return
-  }
-
-  |end medding if your following or attacking
-  /if ((${Bool[${Assisting}]} || ${Me.CombatState.Equal[COMBAT]} || ${Following})) {
-    /if (${Me.Sitting}) /stand
-    /return
-  }
-	| If End MedBreak in Combat (On/Off)=On in General and Character, and a netbot is in combat, call medOff
-	/if (${medOn_combatBreak} && ${medOn_combatBreakChar} && ${Me.CombatState.Equal[COMBAT]}) {
-    /docommand ${ChatToggle} Ending Medbreak early due to combat.
+	| If End MedBreak in Combat (On/Off)=On, and a netbot is in combat, call medOff
+	/if (${medOn_combatBreak} && ${Me.CombatState.Equal[COMBAT]}) {
+    /docommand ${ChatToggle} Ending Medbreak.
     /varset medBreak FALSE
     /varset medBreak_Hold FALSE
-	/if (${Ini[${Character_Ini},Assist Settings,Assist Type (Melee/Ranged/Off)].Length}) /call iniToVarV "${Character_Ini},Assist Settings,Assist Type (Melee/Ranged/Off)" AssistType string outer
     /if (${Me.Sitting}) /stand
 	}
 	/if (!${Me.Feigning}) {
-	
-    /declare needsMed bool local False
-    /if (${Select[${Me.Class.ShortName},RNG]}) {
-        /if (${Me.PctMana} <=80 || ${Me.PctEndurance}<=80) {
-            /varset needsMed true
-        }
-    } else /if (${Me.MaxMana} ==0) {
-      /if (${Me.PctEndurance}<=80) {
-         /varset needsMed true
-      }
-    } else /if (${Me.PctMana} <=80 ) {
-        /varset needsMed true
-    }
-    | end MedBreak when we are full mana or end for melee, unless hold is engaged
-		/if ((${medBreak} && ${needsMed})||${Me.Sitting} ) {
-      /if (${medbreak_Popup_Timer}<1) {
-			  /popup ***Meditating***
-			  /varset medbreak_Popup_Timer 60
-		  }
-		
+		/if (!${medbreak_Popup_Timer}) {
+			/popup ***Meditating***
+			/varset medbreak_Popup_Timer 30
+		}
+		| end MedBreak when we are full mana or end for melee, unless hold is engaged
+		/if (${medBreak} && !${medBreak_Hold} && (${Me.PctMana} >= 99 || (${Me.MaxMana} ==0 && ${Me.PctEndurance}>=99))) {
+			/docommand ${ChatToggle} Full Mana/Endurance, ending MedBreak.
+			/if (${Me.Sitting}) /stand
+			/varset medBreak FALSE
+			/varset medBreak_Hold FALSE				
+		} else {
       /if (!${Me.Sitting} && !${Me.Casting.ID} && !${Me.Moving}) /sit
-    	|/docommand ${ChatToggle} Full Mana/Endurance, ending MedBreak.
-			|/varset medBreak FALSE
-			|/varset medBreak_Hold FALSE	
-			|/if (${Ini[${Character_Ini},Assist Settings,Assist Type (Melee/Ranged/Off)].Length}) /call iniToVarV "${Character_Ini},Assist Settings,Assist Type (Melee/Ranged/Off)" AssistType string outer			
 		}
 	}
 /if (${Debug} || ${Debug_Basics}) /echo <== check_MedBreak -|
 /RETURN
-
 |--------------------------------------------------------------------------------|
 #EVENT set_AAXP "<#1#> Set AA XP #2#"
 #EVENT set_AAXP "[#1#] Set AA XP #2#"
