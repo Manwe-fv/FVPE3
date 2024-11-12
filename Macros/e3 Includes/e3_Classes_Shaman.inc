@@ -50,8 +50,8 @@ SUB check_Totem
 SUB check_Canni
 /if (${Debug}) /echo |- autoCanni ==>
 	/if (${AutoCanni}) {
-	  |only canni if im not in ooc regen
-|		/if (${Me.CombatState.NotEqual[RESTING]}) {
+	  |only canni if not following
+		/if (!${Following}) {
 			/declare s int local
 			/for s 1 to ${canniSpells2D.Size[1]}
         /if (${canniSpells2D.Size[1]}==0) /break
@@ -70,7 +70,7 @@ SUB check_Canni
 			/if (${ActionTaken}) /break
     /next s
 		}
-	|}
+	}
 /if (${Debug}) /echo <== autoCanni -|
 /RETURN
 |----------------------------------------------------------------------------|
