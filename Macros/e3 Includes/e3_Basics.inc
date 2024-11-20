@@ -2447,7 +2447,7 @@ SUB check_Supply
   /if (${Assisting}) /goto :endsupply
   /if (${Me.PctAggro} > 0) /goto :endsupply
   |TODO add variable for minmana - currently at 85
-  /if (${Me.PctMana} >= 85 && ${Me.PctHPs} == 100 ) { 
+  /if (${Me.PctMana} >= 60 && ${Me.PctHPs} >= 60 ) { 
 		
     /if (!${Defined[Supply]}) /call IniToArrayV "${Character_Ini},Supply,Supply#" Supply
 		/declare i int local
