@@ -2419,14 +2419,14 @@ SUB check_Gimme
 |-  ex:   MAG Function#10=check_Supply
 |- Add the below setting to your character.ini
 |-  [Supply]                                                 
-|-  Supply=ItemName|SpellName|RetryTime|GemSlot
-|-  Supply=ItemName|SpellName|RetryTime|GemSlot
+|-  Supply=ItemName|SpellName|RetryTime|GemSlot|Qauntity
+|-  Supply=ItemName|SpellName|RetryTime|GemSlot|Qauntity
 |- Where the item is the item you want, the spell name is the spell to cast to
 |- create that item (for AAs, use the alt id), retry time is how long to wait 
 |- before trying to create that item again if you don't have it, and gem slot
 |- is the gem you want to memorize the spell to. If the spell/AA doesn't need
 |- to be memorized, just leave the gem parameter blank.
-|- Example: Supply=Lava Orb|Summon: Lava Orb|10s|8
+|- Example: Supply=Lava Orb|Summon: Lava Orb|10s|8|10
 |- Example: Supply=Summoned: Large Modulation Shard|Large Modulation Shard|10s
 |----------------------------------------------------------------------------|
 SUB check_Supply
@@ -2446,7 +2446,7 @@ SUB check_Supply
   /if (${Me.Combat}) /goto :endsupply
   /if (${Assisting}) /goto :endsupply
   /if (${Me.PctAggro} > 0) /goto :endsupply
-  |TODO add variable for minmana - currently at 85
+  |TODO add variable for minmana - currently at 60
   /if (${Me.PctMana} >= 60 && ${Me.PctHPs} >= 60 ) { 
 		
     /if (!${Defined[Supply]}) /call IniToArrayV "${Character_Ini},Supply,Supply#" Supply
