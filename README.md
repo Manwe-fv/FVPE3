@@ -1,6 +1,6 @@
 # FVPE3
 
-![FVPE3](http://amaneq.com/home/wp-content/uploads/2024/10/fvpe3-500x500-1.png)
+![FVPE3](https://amaneq.com/wp-content/uploads/2024/10/fvpe3-500x500-1.png)
 
 An update to E3 that allows usage on the latest Macroquest Emu builds and includes edits custom to the Firiona Vie Project server.
 
