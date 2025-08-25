@@ -684,7 +684,10 @@ SUB MAG_Background_Events
 |----------------------------------------------------------------------------|
 | Destroy Orb of Mastery when it's out of charges and immediately summon a new one
 | To enable:
-| Add to MAG's Advanced Settings.ini
+| Add the following to MAG's Advanced Settings.ini:
+| MAG Function=check_OrbOfMasteryCharges
+|
+| Also, ensure the section below is added to the character's INI:
 | [Magician]
 | Auto-Summon Orb of Mastery (On/Off)=On
 |----------------------------------------------------------------------------|
