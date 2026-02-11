@@ -357,7 +357,7 @@ SUB EVENT_updateAliases
 SUB check_Plugins
   /if (${Debug}) /echo Checking plugins...
   |Check MQ2EQBC.
-	/if (!${Plugin[MQ2EQBC].Name.Length}) {
+	/if (!${Plugin[MQ2EQBC].IsLoaded}) {
 		/echo Plugin MQ2EQBC is not loaded, attempting to resolve...
 		/plugin MQ2EQBC
 		/delay 10s !${Select[${EQBC},NULL]}
@@ -374,36 +374,36 @@ SUB check_Plugins
 			/if (!${EQBC.Connected}) /echo ***WARNING*** Could not connect to EQBCS! Please open EQBCS and try again.  Macro functionality may be limited...
 		}
 	|Check MQ2NetBots.
-		/if (!${Plugin[MQ2NetBots].Name.Length}) {
+		/if (!${Plugin[mq2netbots].IsLoaded}) {
 			/echo Plugin MQ2NetBots is not loaded, attempting to resolve...
 			/plugin MQ2NetBots
-			/delay 3s ${NetBots}
-			/if (!${NetBots}) {
+			/delay 3s ${Plugin[mq2netbots].IsLoaded}
+			/if (!${Plugin[mq2netbots].IsLoaded}) {
 				/echo ***WARNING*** Could not load MQ2NetBots! Macro functionality may be limited.
 			}
 		}
 	|Auto-Connect to NetBots.
-		/if (${NetBots}) {
+		/if (${Plugin[mq2netbots].IsLoaded}) {
 			/squelch /netbots on grab=on send=on
 		}
 	|Check MQ2AdvPath.
-		/if (!${Plugin[MQ2AdvPath].Name.Length}) {
+		/if (!${Plugin[MQ2AdvPath].IsLoaded}) {
 			/echo Plugin MQ2AdvPath is not loaded, attempting to resolve...
 			/plugin MQ2AdvPath
-			/delay 3s ${AdvPath}
-			/if (!${AdvPath}) {
+			/delay 3s ${Plugin[MQ2AdvPath].IsLoaded}
+			/if (!${Plugin[MQ2AdvPath].IsLoaded}) {
 				/echo ***WARNING*** Could not load MQ2AdvPath. Please ensure you're using a copy of MQ2 which was compiled with the MQ2AdvPath plugin and try again.
 			}
 		}
 	}
   |Check MQ2MoveUtils.
-	/if (!${Plugin[MQ2MoveUtils].Name.Length}) {
+	/if (!${Plugin[MQ2MoveUtils].IsLoaded}) {
 		/echo Plugin MQ2MoveUtils is not loaded, attempting to resolve...
 		/plugin MQ2MoveUtils
 		/delay 3s !${Select[${Stick.Status},NULL]}
 		/if (${Select[${Stick.Status},NULL]}) {
 			/echo ***WARNING*** Could not load MQ2MoveUtils! Macro functionality may be limited.
-			/if (!${AdvPath}) {
+			/if (!${Plugin[MQ2AdvPath].IsLoaded}) {
 				/echo Follow and Assist stick DISABLED.
 			} else {
 				/echo Assist and NPC stick DISABLED.
@@ -412,18 +412,18 @@ SUB check_Plugins
 		}
 	}
   |Check MQ2Exchange.
-	/if (!${Plugin[MQ2Exchange].Name.Length}) {
+	/if (!${Plugin[MQ2Exchange].IsLoaded}) {
 		/echo Plugin MQ2Exchange is not loaded, attempting to resolve...
 		/plugin MQ2Exchange
-		/delay 3s ${Plugin[MQ2Exchange].Name.Length}
-		/if (!${Plugin[MQ2Exchange].Name.Length}) {
+		/delay 3s ${Plugin[MQ2Exchange].IsLoaded}
+		/if (!${Plugin[MQ2Exchange].IsLoaded}) {
 			/echo ***WARNING*** Could not load MQ2Exchange! Macro functionality may be limited.
 			/echo Item swapping is DISABLED.
 		}
 	}
   |Check MQ2Twist.
 	/if (${Select[${Me.Class.ShortName},BRD]}) {
-		/if (!${Plugin[MQ2Twist].Name.Length}) {
+		/if (!${Plugin[MQ2Twist].IsLoaded}) {
 			/echo Plugin Unable to detect MQ2Twist, attempting to resolve...
 			/plugin MQ2Twist
 			/delay 3s !${Select[${Twist},NULL]}
@@ -434,30 +434,30 @@ SUB check_Plugins
 		}	
 	}
   |Check MQ2Cast.
-	/if (!${Plugin[MQ2Cast].Name.Length}) {
+	/if (!${Plugin[MQ2Cast].IsLoaded}) {
 		/echo Plugin MQ2Cast is not loaded, attempting to resolve...
 		/plugin MQ2Cast
-		/delay 3s ${Plugin[MQ2Cast].Name.Length}
-		/if (!${Plugin[MQ2Cast].Name.Length}) {
+		/delay 3s ${Plugin[MQ2Cast].IsLoaded}
+		/if (!${Plugin[MQ2Cast].IsLoaded}) {
 			/echo ***WARNING*** MQ2Cast is needed for casting functionality
 			/echo Macro ending now
 			/endmacro
 		}
 	}
   |Check MQ2ItemDisplay.
-	/if (!${Plugin[mq2itemdisplay].Name.Length}) /plugin MQ2ItemDisplay
+	/if (!${Plugin[mq2itemdisplay].IsLoaded}) /plugin MQ2ItemDisplay
 	|Check MQ2LinkDB
-	/if (!${Plugin[MQ2LinkDB].Name.Length}) {
+	/if (!${Plugin[MQ2LinkDB].IsLoaded}) {
 			 /plugin MQ2LinkDB
 			 
 	}
 	|new mq2 version has performance issues with version 2.3 of the plugin
 	|when scanning new links. Diabled by default for now.
 	|Note, Version 2.1 will crash the client if you issue this command, make sure its > than that.
-	/if (${Plugin[MQ2LinkDB].Name.Length} && ${Plugin[MQ2LinkDB].Version}>2.1) {
+	/if (${Plugin[MQ2LinkDB].IsLoaded} && ${Plugin[MQ2LinkDB].Version}>2.1) {
 				/link /scan off
 	}
 
 |Check MQ2HUD.
-|	/if (!${Plugin[mq2hud].Name.Length}) /plugin MQ2HUD
+|	/if (!${Plugin[mq2hud].IsLoaded}) /plugin MQ2HUD
 /RETURN
